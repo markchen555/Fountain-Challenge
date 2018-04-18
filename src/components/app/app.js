@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import Navbar from '../navbar/navbar';
+import Footer from '../footer/footer';
+
 import './app.css';
 
 class App extends Component {
@@ -9,8 +12,12 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        Test
+      <div className="app-wrapper">
+        <Navbar />
+        <div className="container">
+          <h1>Your Tasks</h1>
+        </div>
+        <Footer />
       </div>
     )
   }
