@@ -1,0 +1,112 @@
+.card-section {
+  padding: 10px 15px;
+}
+
+.card-title {
+  color: #6c7d87;
+  font-weight: bold;
+}
+
+.task-card {
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, .3);
+}
+
+.green {
+  color: #29c977
+}
+
+.grey {
+  color: #adc0cc
+}
+
+.overlay-control-bar{
+  border-radius: 3px;
+  display: table-caption;
+  position: absolute;
+  text-align: center;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  padding-top: 5vh;
+  background-color: rgba(40, 71, 89, 0.9)
+}
+
+.overlay-input-bar{
+  border-radius: 3px;
+  display: table-caption;
+  position: absolute;
+  text-align: center;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  padding: 5vh 20px;
+  /* padding-top: 5vh; */
+  background-color: white
+}
+
+.hidden {
+  display: none
+}
+
+.edit-input {
+  display:none;
+}
+
+.btn-complete{
+  background-color: transparent;
+  border-color: transparent;
+  color:#29c977;
+}
+
+.btn-complete:hover {
+  background-color: transparent;
+  border-color: transparent;
+  color:#29c977;
+}
+
+.btn-edit {
+  background-color: transparent;
+  border-color: transparent;
+  color: white
+}
+
+.btn-edit:hover {
+  background-color: transparent;
+  border-color: transparent;
+  color: white
+}
+
+.btn-undo {
+  background-color: transparent;
+  border-color: transparent;
+  color: #f0644a
+}
+
+.btn-undo:hover {
+  background-color: transparent;
+  border-color: transparent;
+  color: #f0644a
+}
+
+.btn-save {
+  background-color: transparent;
+  border-color: transparent;
+  color: #34a4f0
+}
+
+.btn-save:hover {
+  background-color: transparent;
+  border-color: transparent;
+  color: #34a4f0
+}
+
+.task-input {
+  border-color: transparent;
+}
+
+.divider  {
+  color: #adc0cc;
+  /* padding: 0 1vw; */
+}

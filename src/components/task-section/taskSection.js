@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { fetchTasks, addTask } from '../../actions/postAction';
 
 import Loading from '../loading/loading';
-import TaskBlock from './taskBlock';
+import TaskBlock from '../task-block/taskBlock';
 
 import './taskSection.css';
 
@@ -14,12 +14,17 @@ class TaskSection extends Component {
     super(props);
     this.state = {
       tasks: [],
+      taskTitle: '',
       allCompleted: false,
     }
 
     this.handleClick = this.handleClick.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
     this.onAddTask = this.onAddTask.bind(this);
+    this.onEditTask = this.onEditTask.bind(this);
+    this.onUserInput = this.onUserInput.bind(this);
+    this.displayShow = this.displayShow.bind(this);
+    this.displayHidden = this.displayHidden.bind(this);
   }
 
   componentWillReceiveProps(nextTasks) {
@@ -27,9 +32,33 @@ class TaskSection extends Component {
   }
 
   onAddTask() {
-    // this.setState({task: {id: this.props.tasks.length, title: 'Default task name', status: 'Active'}},
-    // this.props.addTask(this.state.task));
     this.props.addTask({id: this.props.tasks.length, title: 'Default task name', status: 'Active'});
+  }
+
+  displayShow(e) {
+    let currTaskId = e.target.id.split('-')[2];
+    let currTask = `control-bar-${currTaskId}`
+    let element = document.getElementById(currTask).classList.add("show")
+  }
+
+  displayHidden(e) {
+    let currTaskId = e.target.id.split('-')[2];
+    console.log(e.target)
+    let currTask = `control-bar-${currTaskId}`
+    let element = document.getElementById(currTask).classList.remove("show")
+  }
+
+  onEdit(e) {
+    let currTask = e.target.name;
+    let element = document.getElementById(currTask).classList.add("show")
+  }
+
+  onEditTask(e) {
+    e.preventDefault();
+    this.state.tasks[e.target.name].title = this.state[e.target.name]
+    this.setState({tasks: this.state.tasks});
+    let currTask = e.target.name;
+    let element = document.getElementById(currTask).classList.remove("show")
   }
 
   handleClick(e) {
@@ -50,12 +79,13 @@ class TaskSection extends Component {
     if(!this.state.tasks) {
       return (<Loading />)
     } 
+
     const mapTasks = this.props.tasks.map((task, i) => {
-      return <TaskBlock key={i} handleToggle={this.handleToggle} task={task}/>
+      return <TaskBlock key={i} handleToggle={this.handleToggle} onEdit={this.onEdit} onUserInput={this.onUserInput} onEditTask={this.onEditTask} displayShow={this.displayShow} displayHidden={this.displayHidden} task={task}/>
     })
 
     const taskStatus = this.props.tasks.every(task => {
-      return task.status === 'Completed' ? this.state.allCompleted = true : this.state.allCompleted = false
+      return task.status === 'Completed' ? this.state.allCompleted = true : this.state.allCompleted = false;
     })
 
     return (
@@ -107,7 +137,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  // fetchTasks: bindActionCreators(fetchTasks, dispatch),
   addTask: bindActionCreators(addTask, dispatch)
 })
 
