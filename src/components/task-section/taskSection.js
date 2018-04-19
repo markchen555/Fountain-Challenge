@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 
 import { fetchTasks, addTask } from '../../actions/postAction';
 
@@ -21,10 +22,10 @@ class TaskSection extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
     this.onAddTask = this.onAddTask.bind(this);
+    this.onInputEdit = this.onInputEdit.bind(this);
     this.onEditTask = this.onEditTask.bind(this);
     this.onUserInput = this.onUserInput.bind(this);
     this.displayShow = this.displayShow.bind(this);
-    this.displayHidden = this.displayHidden.bind(this);
   }
 
   componentWillReceiveProps(nextTasks) {
@@ -35,29 +36,28 @@ class TaskSection extends Component {
     this.props.addTask({id: this.props.tasks.length, title: 'Default task name', status: 'Active'});
   }
 
-  displayShow(e) {
-    let currTaskId = e.target.id.split('-')[2];
-    let currTask = `control-bar-${currTaskId}`
-    let element = document.getElementById(currTask).classList.add("show")
-  }
-
-  displayHidden(e) {
-    let currTaskId = e.target.id.split('-')[2];
-    console.log(e.target)
-    let currTask = `control-bar-${currTaskId}`
-    let element = document.getElementById(currTask).classList.remove("show")
-  }
-
-  onEdit(e) {
-    let currTask = e.target.name;
-    let element = document.getElementById(currTask).classList.add("show")
+  displayShow(id) {
+    let innerDisplayShow = () => {
+      let currTask = `control-bar-${id}`
+      let element = document.getElementById(currTask).classList.toggle("show")
+    }
+    return innerDisplayShow.bind(this);
   }
 
   onEditTask(e) {
+    let editName = `control-input-${e.target.name}`;
+    let element = document.getElementById(editName).classList.add("show");
+  }
+
+  onInputEdit(e) {
     e.preventDefault();
-    this.state.tasks[e.target.name].title = this.state[e.target.name]
-    this.setState({tasks: this.state.tasks});
-    let currTask = e.target.name;
+    if(this.state[e.target.name] !== undefined) {
+      let input = this.state[e.target.name].trim();
+      let name = input.length === 0 ? 'Default task name' : input;
+      this.state.tasks[e.target.name].title = input;
+      this.setState({tasks: this.state.tasks});
+    }
+    let currTask = `control-input-${e.target.name}`;
     let element = document.getElementById(currTask).classList.remove("show")
   }
 
@@ -81,7 +81,7 @@ class TaskSection extends Component {
     } 
 
     const mapTasks = this.props.tasks.map((task, i) => {
-      return <TaskBlock key={i} handleToggle={this.handleToggle} onEdit={this.onEdit} onUserInput={this.onUserInput} onEditTask={this.onEditTask} displayShow={this.displayShow} displayHidden={this.displayHidden} task={task}/>
+      return <TaskBlock key={i} handleToggle={this.handleToggle} onEditTask={this.onEditTask} onUserInput={this.onUserInput} onInputEdit={this.onInputEdit} displayShow={this.displayShow(i)} task={task}/>
     })
 
     const taskStatus = this.props.tasks.every(task => {
@@ -96,9 +96,9 @@ class TaskSection extends Component {
         <div className="task-status-completed">
           <div className="row">
             <div className="col-md-12">
-              <span>All tasks completed</span>
+              <span className="task-status-text">All tasks completed</span>
             </div>
-            <div className="col-md-12">
+            <div className="col-md-12 task-status-count">
               <span>Well done!</span>
             </div>
           </div>
@@ -107,9 +107,9 @@ class TaskSection extends Component {
         <div className="task-status-active">
           <div className="row">
             <div className="col-md-12">
-              <span>Complete all tasks</span>
+              <span className="task-status-text">Complete all tasks</span>
             </div>
-            <div className="col-md-12">
+            <div className="col-md-12 task-status-count">
               <span>You have {this.props.tasks.length} active tasks</span>
             </div>
           </div>
@@ -139,5 +139,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addTask: bindActionCreators(addTask, dispatch)
 })
+
+TaskSection.propTypes = {
+  tasks: PropTypes.array.isRequired,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskSection);

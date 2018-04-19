@@ -7,13 +7,23 @@
 .task-status-active {
   background-color: #34a4f0;
   padding: 15px 20px 15px 20px;
+  margin-top: 20px;
   border-radius: 3px;
 }
 
 .task-status-completed {
   background-color: #29c977;
   padding: 15px 20px 15px 20px;
+  margin-top: 20px;
   border-radius: 3px;
+}
+
+.task-status-text {
+  font-weight: bold;
+}
+
+.task-status-count {
+  padding-top: 10px;
 }
 
 .task-status-active span {
