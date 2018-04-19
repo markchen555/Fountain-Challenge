@@ -1,9 +1,9 @@
 
 
-// export const fetchTasks = () => dispatch => {
-//   console.log('action called')
-//   type: 'FETCH_TASKS'
-// }
+export const fetchTasks = () => dispatch => {
+  console.log('action called')
+  type: 'FETCH_TASKS'
+}
 
 export const addTask = (taskData) => dispatch => {
   dispatch({

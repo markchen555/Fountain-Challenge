@@ -1,33 +1,23 @@
 
 const initialState = {
-  tasks: [{
-    id:1, 
-    title: 'Default task name',
-    status: 'Completed'
-  },{
-    id:2, 
-    title: 'Default task name',
-    status: 'Completed'
-  }],
-  task: {}
+  tasks: [],
 }
 
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case 'FETCH_TASKS':
-      return {
-        state,
-      }
     case 'ADD_TASK':
-      return {
-        ...state,
-        task: action.payload
-      }
+      console.log('this is tasks', state.tasks);
+      console.log('this is action.payload', action.payload);
+      state.tasks = [...state.tasks, action.payload];
+      return {...state};
+      // return {
+      //   ...state,
+      //   task: action.payload
+      // }
     case 'TOOGLE_STATUS':
       return {
         ...state,
-
       }
     default:
       return state; 
